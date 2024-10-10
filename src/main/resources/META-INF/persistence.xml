@@ -17,7 +17,7 @@
             <property name="hibernate.connection.url" value="jdbc:postgresql://<DB_HOST>:<DB_PORT>/<DB_NAME>"/>
             <property name="hibernate.connection.username" value="${DB_USER}"/>
             <property name="hibernate.connection.password" value="${DB_PASSWORD}"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- O "create", según lo que necesites -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/> 
             <property name="use_sql_comments" value="true"/>
         </properties>
 
