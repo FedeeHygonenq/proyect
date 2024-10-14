@@ -8,13 +8,13 @@
         
         <!-- Definición de la conexión a la base de datos -->
         <properties>
-            <!-- JDBC URL -->
+            <!-- JDBC URL (sacado del deploy de Render) -->
             <property name="javax.persistence.jdbc.url" value="${DB_URL}" />
             
-            <!-- Usuario de la base de datos -->
+            <!-- Usuario de la base de datos (sacado del deploy de Render) -->
             <property name="javax.persistence.jdbc.user" value="${DB_USER}" />
             
-            <!-- Contraseña de la base de datos -->
+            <!-- Contraseña de la base de datos (sacado del deploy de Render) -->
             <property name="javax.persistence.jdbc.password" value="${DB_PASSWORD}" />
             
             <!-- Driver JDBC -->
@@ -22,7 +22,7 @@
 
             <!-- Configuración adicional de Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.hbm2ddl.auto" value="${HIBERNATE_HBM2DDL_AUTO}" />
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
         </properties>
