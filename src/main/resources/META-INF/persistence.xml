@@ -1,20 +1,30 @@
 <persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
-             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
-             version="2.1">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+    version="2.1">
 
-    <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
+    <persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        
+        <!-- Definición de la conexión a la base de datos -->
+        <properties>
+            <!-- JDBC URL -->
+            <property name="javax.persistence.jdbc.url" value="${DB_URL}" />
+            
+            <!-- Usuario de la base de datos -->
+            <property name="javax.persistence.jdbc.user" value="${DB_USER}" />
+            
+            <!-- Contraseña de la base de datos -->
+            <property name="javax.persistence.jdbc.password" value="${DB_PASSWORD}" />
+            
+            <!-- Driver JDBC -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
 
-         <properties>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://mysql:3306/libros_8g4n"/>
-            <property name="javax.persistence.jdbc.user" value="${DB_USER}"/>
-            <property name="javax.persistence.jdbc.password" value="${DB_PASSWORD}"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
-            <property name="hibernate.show_sql" value="true"/>
+            <!-- Configuración adicional de Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
         </properties>
     </persistence-unit>
 </persistence>
