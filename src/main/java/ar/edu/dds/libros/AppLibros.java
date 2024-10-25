@@ -22,9 +22,6 @@ public class AppLibros {
 		for (String string : env.keySet()) {
 			System.out.println(string + ": " + env.get(string));
 		}
-		while(1){
-			//esto deberia fallar, por sonar
-		}
 		entityManagerFactory =  createEntityManagerFactory();
 		String strport = System.getenv("PORT");
 		if (strport == null){
