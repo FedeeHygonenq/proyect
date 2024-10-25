@@ -7,7 +7,7 @@ public class AppLibrosTest {
 
     @Test
     public void testAlgoQueDeberiaEstarBien() {
-        //esto es una prueba para jenkins
+        //prueba jenkins..
         Assertions.assertEquals(1, 1);
     }
 
