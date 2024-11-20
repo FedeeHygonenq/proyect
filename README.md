@@ -47,7 +47,7 @@ Ambas aplicaciones están configuradas y desplegadas utilizando herramientas mod
 
 ¡Mira cómo funciona nuestro proyecto en tiempo real!  
 
-[![Demostración](https://github.com/user-attachments/assets/6d3fadaa-7ac7-4aa9-8a9c-36294cdd181d)]
+[![Demostración](https://www.youtube.com/watch?v=6yJ8iTz1KNk)]
 
 ---
 
