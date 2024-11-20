@@ -1,2 +1,0 @@
-[vm_kubernetes]
-192.168.57.128 ansible_user=fhygonenq ansible_ssh_pass=12345678 ansible_become_pass=12345678 ansible_python_interpreter=/usr/bin/python3
