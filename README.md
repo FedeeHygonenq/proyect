@@ -13,7 +13,7 @@ Ambas aplicaciones están configuradas y desplegadas utilizando herramientas mod
 |         Nombre           |                      Contacto                  |
 |--------------------------|------------------------------------------------|
 | **Federico Hygonenq**    | [GitHub](https://github.com/FedeeHygonenq)     |
-| **Mercedes Cantarero**   | [GitHub](htps://github.com/MMercedesCantarero)|
+| **Mercedes Cantarero**   | [GitHub](https://github.com/MMercedesCantarero)|
 -----------------------------------------------------------------------------
 
 ## 📜 **Flujo de Ejecución**  
