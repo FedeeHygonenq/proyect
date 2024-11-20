@@ -47,7 +47,7 @@ Ambas aplicaciones están configuradas y desplegadas utilizando herramientas mod
 
 ¡Mira cómo funciona nuestro proyecto en tiempo real!  
 
-[![](https://markdown-videos.deta.dev/youtube/6yJ8iTz1KNk?si=bVp9PZelVlkBpX0Z)](https://youtu.be/6yJ8iTz1KNk?si=bVp9PZelVlkBpX0Z)]
+[![](https://markdown-videos.deta.dev/youtube/6yJ8iTz1KNk?si=bVp9PZelVlkBpX0Z)](https://youtu.be/6yJ8iTz1KNk?si=bVp9PZelVlkBpX0Z)
 
 ---
 
