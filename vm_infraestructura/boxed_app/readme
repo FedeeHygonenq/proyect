@@ -1,0 +1,8 @@
+docker-compose.yml establece un entorno para desplegar OpenCart:
+Utilizando la imagen bitnami/opencart y expone el puerto 8080 del contenedor en el puerto 8888 de la máquina local. 
+Se configura mediante variables de entorno que establecen la conexión con el servicio de base de datos MariaDB.
+
+
+Para desplegar la aplicación ejecutamos este comando:
+docker-compose up -d
+
