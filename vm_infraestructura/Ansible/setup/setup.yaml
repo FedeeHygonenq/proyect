@@ -1,0 +1,22 @@
+- name: Instalar PHP y Composer dentro del contenedor Docker
+  shell: |
+    docker exec -u root {{ hostvars[inventory_hostname].nombre_contenedor }} bash -c "
+    apt update &&
+    apt install -y php php-cli php-mbstring unzip
+    "
+
+- name: Descargar el instalador de Composer en el contenedor Docker
+  shell: |
+    docker exec -u root {{ hostvars[inventory_hostname].nombre_contenedor }} curl -sS https://getcomposer.org/installer -o /var/www/html/composer-setup.php
+
+- name: Cambiar permisos del instalador de Composer en el contenedor Docker
+  shell: |
+    docker exec -u root {{ hostvars[inventory_hostname].nombre_contenedor }} chmod +x /var/www/html/composer-setup.php
+
+- name: Ejecutar el instalador de Composer en el contenedor Docker
+  shell: |
+    docker exec -u root {{ hostvars[inventory_hostname].nombre_contenedor }} php /var/www/html/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+- name: Verificar la instalación de Composer
+  shell: |
+    docker exec -u root {{ hostvars[inventory_hostname].nombre_contenedor }} composer --version

@@ -1,0 +1,27 @@
+---
+- hosts: opencart_server
+  tasks:
+    - name: Crear un directorio para el backup
+      file:
+        path: /backup/opencart
+        state: directory
+        mode: '0755'
+
+    - name: Backup de la base de datos
+      command: >
+        docker exec fhygonenq-mariadb-1 /opt/bitnami/mariadb/bin/mariadb-dump -u bn_opencart -pbitnami opencart_db
+      register: backup_output
+      args:
+        chdir: /backup/opencart
+        removes: /backup/opencart/backup.sql # Para evitar un archivo vacío
+
+    - name: Guardar el backup en un archivo
+      copy:
+        content: "{{ backup_output.stdout }}"
+        dest: "/backup/opencart/backup_{{ ansible_date_time.date }}.sql"
+
+    - name: Copiar el backup a la máquina local
+      fetch:
+        src: "/backup/opencart/backup_{{ ansible_date_time.date }}.sql"
+        dest: "./backups/"  # Cambia esto a la ruta donde quieres guardar el archivo en la máquina local
+        flat: yes

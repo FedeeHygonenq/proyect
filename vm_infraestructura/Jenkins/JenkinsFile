@@ -1,0 +1,105 @@
+pipeline {
+        agent any
+    triggers{
+    cron('H/15 * * * *')
+    }
+      environment {
+        SONARQUBE_URL = 'http://192.168.57.131:9000'  // Cambia por tu URL de SonarQube
+        DOCKER_HUB_CREDENTIALS = 'docker_hub_credenciales' // El ID que contiene las credenciales de Docker Hub
+        GIT_HUB_CREDENTIALS = 'github_credencial'
+        DOCKER_IMAGE_NAME = 'fhygonenq1/apilibros' // Nombre de la imagen 
+        DOCKER_IMAGE_TAG = 'latest'    
+    }
+    stages{
+        stage('Git Clone or Pull') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "$GIT_HUB_CREDENTIALS", usernameVariable: 'CUSTOM_USERNAME', passwordVariable: 'CUSTOM_PASSWORD')]) {
+                    script {
+                        echo "Verificando el repositorio..."
+                        if (fileExists('proyect')) {
+                            echo "El repositorio ya existe, realizando git fetch y comparando con el remoto..."
+                            dir('proyect') {
+                                sh "git fetch origin" // Obtiene la información más reciente del remoto
+                                // Compara la rama local con la remota
+                                def localCommit = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                                def remoteCommit = sh(script: 'git rev-parse origin/main', returnStdout: true).trim() // Cambia 'main' por tu rama si es necesario
+                                if (localCommit == remoteCommit) {
+                                    echo "No hay nuevos commits en el repositorio, abortando el pipeline." 
+                                   return;
+                                } else {
+                                    echo "Hay nuevos commits, haciendo git pull..."
+                                    sh "git pull" // Actualiza el repositorio local con los últimos cambios
+                                }
+                            }
+                        } else {
+                            echo "Clonando el repositorio por primera vez..."
+                            sh "git clone https://$CUSTOM_USERNAME:$CUSTOM_PASSWORD@github.com/FedeeHygonenq/proyect"
+                        }
+                    }
+                }
+            }
+        }
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    dir('proyect') { // Cambia esto a la ruta donde se encuentra pom.xml
+                        withSonarQubeEnv('sonarqube') {
+                            echo 'Ejecutando análisis de SonarQube...'
+                            def sonarResult = sh(script: "mvn clean verify sonar:sonar -Dsonar.projectKey=api -Dsonar.projectName=api -Dsonar.host.url=$SONARQUBE_URL -Dsonar.token=sqp_4866737b10ff51c6696be87e67c370d7dbcea371", returnStatus: true)
+                            if (sonarResult != 0) {
+                                error('El análisis de SonarQube ha fallado.')
+                            } else {
+                                echo 'Análisis de SonarQube completado exitosamente.'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+         stage('Limpiar imagenes previas') {
+            steps {
+                script {
+                    echo 'Eliminando imagen previa de Docker...'
+                    sh "docker rmi -f $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG || true" 
+                }
+            }
+        }        
+        stage('Build imagen appx') {
+            steps {
+                script {
+                    dir('proyect/') {
+                        echo 'Construyendo nueva imagen Docker...' 
+                        newApp = docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")  // Construye la imagen con el número de build
+                    }
+                }
+            }
+        }
+        stage('Push imagen en Docker Hub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: "$DOCKER_HUB_CREDENTIALS", usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    script {
+                        echo 'Logueando en Docker Hub...'
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"//paso la contraseña asi para que no se vea en los logs
+                        echo 'Pusheando imagen a Docker Hub...'
+                        sh "docker push $DOCKER_IMAGE_NAME:$DOCKER_IMAGE_TAG"
+                    }
+                }
+            }   
+        }
+        stage('delego a vm_2'){
+            steps{
+                 script {
+                    // Llama al otro pipeline
+                    def result = build job: 'minikubedespliegue', wait: true // 'wait: true' espera a que finalice el pipeline llamado
+                    echo "Resultado del otro pipeline: ${result.getResult()}" // Opcional: Muestra el resultado del pipeline llamado
+                }
+            }
+        }
+    }
+       post {
+        always {
+            echo 'Limpiando recursos...'
+            sh 'docker logout'
+        }
+    }
+}  

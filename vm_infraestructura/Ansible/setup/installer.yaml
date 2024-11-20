@@ -1,0 +1,27 @@
+---
+- name: Configurar OpenCart
+  hosts: opencart
+  become: yes
+  user: root
+  tasks:
+    - name: Instalar Composer y PHP
+      include_tasks: installer.yaml
+
+    - name: Ejecutar el playbook de dependencias
+      include_tasks: dependencias.yaml
+
+    - name: Configurar vendor.php
+      include_tasks: configure_vendor.yaml
+
+    - name: Configurar config.php
+      include_tasks: configure_config.yaml
+
+    - name: Detener el contenedor de OpenCart
+      docker_container:
+        name: fhygonenq-opencart-1
+        state: stopped
+
+    - name: Iniciar el contenedor de OpenCart
+      docker_container:
+        name: fhygonenq-opencart-1
+        state: started
