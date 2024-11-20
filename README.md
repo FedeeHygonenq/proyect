@@ -47,7 +47,7 @@ Ambas aplicaciones están configuradas y desplegadas utilizando herramientas mod
 
 ¡Mira cómo funciona nuestro proyecto en tiempo real!  
 
-[![Demostración](https://img.youtube.com/vi/6yJ8iTz1KNk/hqdefault.jpg)](https://youtu.be/https://www.youtube.com/6yJ8iTz1KNk)
+[![Demostración](https://img.youtube.com/vi/6yJ8iTz1KNk/hqdefault.jpg)](https://www.youtube.com/embed/6yJ8iTz1KNk?si=18STAZOXNAx2GwGg)
 
 
 ---
